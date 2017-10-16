@@ -1,1 +1,0 @@
-The code prints hello world periodically along with the time stamp. Module terminates after 100 ns, as specified.
