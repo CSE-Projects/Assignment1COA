@@ -1,0 +1,62 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x100ed70 .scope module, "fullAdder" "fullAdder" 2 21;
+ .timescale 0 0;
+L_0x101ede0 .functor OR 1, v0x101e530_0, v0xfec6c0_0, C4<0>, C4<0>;
+v0x101e810_0 .net "carry", 0 0, L_0x101ede0; 1 drivers
+v0x101e890_0 .net "i1carry", 0 0, v0x101e530_0; 1 drivers
+v0x101e940_0 .net "i2carry", 0 0, v0xfec6c0_0; 1 drivers
+v0x101e9f0_0 .net "isum", 0 0, v0x101e730_0; 1 drivers
+v0x101eaf0_0 .net "op1", 0 0, C4<z>; 0 drivers
+v0x101eb70_0 .net "op2", 0 0, C4<z>; 0 drivers
+v0x101ec30_0 .net "op3", 0 0, C4<z>; 0 drivers
+v0x101ece0_0 .net "sum", 0 0, v0x101e320_0; 1 drivers
+S_0x101e3d0 .scope module, "inst1" "halfAdder" 2 28, 2 7, S_0x100ed70;
+ .timescale 0 0;
+v0x101e530_0 .var "carry", 0 0;
+v0x101e5f0_0 .alias "op1", 0 0, v0x101eaf0_0;
+v0x101e690_0 .alias "op2", 0 0, v0x101eb70_0;
+v0x101e730_0 .var "sum", 0 0;
+E_0x101e4c0 .event edge, v0x101e690_0, v0x101e5f0_0;
+S_0x100ee60 .scope module, "inst2" "halfAdder" 2 30, 2 7, S_0x100ed70;
+ .timescale 0 0;
+v0xfec6c0_0 .var "carry", 0 0;
+v0x101e1e0_0 .alias "op1", 0 0, v0x101e9f0_0;
+v0x101e280_0 .alias "op2", 0 0, v0x101ec30_0;
+v0x101e320_0 .var "sum", 0 0;
+E_0xfda050 .event edge, v0x101e280_0, v0x101e1e0_0;
+    .scope S_0x101e3d0;
+T_0 ;
+    %wait E_0x101e4c0;
+    %load/v 8, v0x101e5f0_0, 1;
+    %load/v 9, v0x101e690_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x101e730_0, 8, 1;
+    %load/v 8, v0x101e5f0_0, 1;
+    %load/v 9, v0x101e690_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x101e530_0, 8, 1;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x100ee60;
+T_1 ;
+    %wait E_0xfda050;
+    %load/v 8, v0x101e1e0_0, 1;
+    %load/v 9, v0x101e280_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x101e320_0, 8, 1;
+    %load/v 8, v0x101e1e0_0, 1;
+    %load/v 9, v0x101e280_0, 1;
+    %and 8, 9, 1;
+    %set/v v0xfec6c0_0, 8, 1;
+    %jmp T_1;
+    .thread T_1, $push;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "halfAdder.v";
