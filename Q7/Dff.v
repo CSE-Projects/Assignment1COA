@@ -7,17 +7,21 @@
 /**
 * Module for D master slave flip-flop
 */
-module Dff (output q, output  qn, input d, input clk);
+module Dff (output q, output  qn, input d, input clk, input res);
 
 	reg nclk;
 	wire qi, qni;
 	
+	// active low reset signal
+	wire new_d;
+	assign new_d = d & res;
+	
 	// D latch 1
-	Dl inst1 (qi, qni, d, nclk);
+	Dl inst1 (qi, qni, new_d, nclk);
 	// D latch 2
 	Dl inst2 (q, qn, qi, clk);
 	
-	// not of clock
+	// complement of clock
 	always @ (clk) begin
 		nclk <= ~clk;
 	end

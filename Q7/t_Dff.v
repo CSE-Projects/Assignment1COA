@@ -14,9 +14,10 @@ module t_Dff;
 	// inputs 
 	reg d;
 	reg clk;
-	
+	// active low reset input 
+	reg res;
 	// D flip-flop thread instantiated
-	Dff inst (q, qn, d, clk);
+	Dff inst (q, qn, d, clk, res);
 	
 	// check for various input combinations
 	initial begin
@@ -26,6 +27,7 @@ module t_Dff;
 		
 		d = 1'b0;
 		clk = 1'b0;
+		res = 1'b1;
 			
 		#6
 			d = 1'b1;			
@@ -33,8 +35,24 @@ module t_Dff;
 			d = 1'b0;
 		#6
 			d = 1'b0;
-		#6;
+		#6; 
 			d = 1'b1;
+		#6;
+			res = 1'b0;
+			d = 1'b1;
+		#6;
+			d = 1'b0;
+		#6;
+		
+		#6
+			d = 1'b1;			
+		#6
+			d = 1'b0;
+		#6
+			d = 1'b0;
+		#6;
+			res = 1'b1;
+			d = 1'b0;
 		#6;
 			d = 1'b1;
 		#6;
@@ -43,19 +61,6 @@ module t_Dff;
 		#6
 			d = 1'b1;			
 		#6
-			d = 1'b0;
-		#6
-			d = 1'b0;
-		#6;
-			d = 1'b0;
-		#6;
-			d = 1'b1;
-		#6;
-			d = 1'b0;
-		#6;
-		#6
-			d = 1'b1;			
-		#6
 			d = 1'b1;
 		#6
 			d = 1'b1;
@@ -64,9 +69,10 @@ module t_Dff;
 		#6;
 			d = 1'b1;
 		#6;
+		#6;
 			d = 1'b0;
 		#6;
-		#6
+		#6;
 			d = 1'b1;			
 		#6
 			d = 1'b0;
@@ -90,7 +96,7 @@ module t_Dff;
 	
 	// print result
 	initial begin
-		$monitor("%t: d: %b clk: %b \t\t\t q: %b q': %b\n", $time, d, clk, q, qn);	
+		$monitor("%t: d: %b clk: %b reset : %b \t\t\t q: %b q': %b\n", $time, d, clk, res, q, qn);	
 	end
 	
 	
