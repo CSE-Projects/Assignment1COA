@@ -90,7 +90,7 @@ module t_Dff;
 	
 	// print result
 	initial begin
-		$monitor("%t: d: %b clk: %b \n\t\t\t q: %b q': %b\n", $time, d, clk, q, qn);	
+		$monitor("%t: d: %b clk: %b \t\t\t q: %b q': %b\n", $time, d, clk, q, qn);	
 	end
 	
 	
