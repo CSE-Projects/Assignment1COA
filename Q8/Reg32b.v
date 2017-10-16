@@ -48,7 +48,7 @@ module Dff (output reg q, input d, input clk, input res);
 	always @ (posedge clk) begin
 		
 		if(res == 1'b0) 
-			q = 1'b0;
+			q <= 1'b0;
 		else	
 			q <= d;
 			
