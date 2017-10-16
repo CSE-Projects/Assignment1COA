@@ -43,6 +43,7 @@ module t_halfAdder;
 		op2 = 1'b1;
 		op3 = 1'b1;
 		
+		#10
 		op1 = 1'b1;
 		op2 = 1'b0;
 		op3 = 1'b0;
