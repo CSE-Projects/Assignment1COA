@@ -1,0 +1,15 @@
+Adding and subtracting n bits using 1 full adder. 
+
+The size of register can be changed according to number of bits and the value in for loop must also be changed. 
+
+This result will be displayed in binary with LSB first and followed by more significant bits.
+
+fullAdder.v is the main function file
+
+t_adder.v is test bench for full adder
+
+t_subtractor.v is test bench for full subtractor
+
+vvp files are the output files
+
+vcd files are the gtkwave files

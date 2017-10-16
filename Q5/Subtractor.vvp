@@ -1,0 +1,129 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision - 10;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x23591e0 .scope module, "t_Subtractor" "t_Subtractor" 2 3;
+ .timescale -9 -10;
+v0x236bf00_0 .net "carry", 0 0, L_0x236c570; 1 drivers
+v0x236bfb0_0 .var/i "i", 31 0;
+v0x236c030_0 .var "imm", 0 0;
+v0x236c0b0_0 .var "n1", 3 0;
+v0x236c160_0 .var "n2", 3 0;
+v0x236c1e0_0 .var "op1", 0 0;
+v0x236c2b0_0 .var "op2", 0 0;
+v0x236c380_0 .var "op3", 0 0;
+v0x236c4a0_0 .net "sum", 0 0, v0x236b440_0; 1 drivers
+S_0x23592d0 .scope module, "inst" "fullAdder" 2 19, 3 15, S_0x23591e0;
+ .timescale -9 -10;
+L_0x236c570 .functor OR 1, v0x236b650_0, v0x2334370_0, C4<0>, C4<0>;
+v0x236b930_0 .alias "carry", 0 0, v0x236bf00_0;
+v0x236b9b0_0 .net "i1carry", 0 0, v0x236b650_0; 1 drivers
+v0x236ba60_0 .net "i2carry", 0 0, v0x2334370_0; 1 drivers
+v0x236bb10_0 .net "isum", 0 0, v0x236b850_0; 1 drivers
+v0x236bc10_0 .net "op1", 0 0, v0x236c1e0_0; 1 drivers
+v0x236bc90_0 .net "op2", 0 0, v0x236c2b0_0; 1 drivers
+v0x236bd50_0 .net "op3", 0 0, v0x236c380_0; 1 drivers
+v0x236be00_0 .alias "sum", 0 0, v0x236c4a0_0;
+S_0x236b4f0 .scope module, "inst1" "halfAdder" 3 22, 3 1, S_0x23592d0;
+ .timescale -9 -10;
+v0x236b650_0 .var "carry", 0 0;
+v0x236b710_0 .alias "op1", 0 0, v0x236bc10_0;
+v0x236b7b0_0 .alias "op2", 0 0, v0x236bc90_0;
+v0x236b850_0 .var "sum", 0 0;
+E_0x236b5e0 .event edge, v0x236b7b0_0, v0x236b710_0;
+S_0x23580f0 .scope module, "inst2" "halfAdder" 3 24, 3 1, S_0x23592d0;
+ .timescale -9 -10;
+v0x2334370_0 .var "carry", 0 0;
+v0x236b300_0 .alias "op1", 0 0, v0x236bb10_0;
+v0x236b3a0_0 .alias "op2", 0 0, v0x236bd50_0;
+v0x236b440_0 .var "sum", 0 0;
+E_0x2358a30 .event edge, v0x236b3a0_0, v0x236b300_0;
+    .scope S_0x236b4f0;
+T_0 ;
+    %wait E_0x236b5e0;
+    %load/v 8, v0x236b710_0, 1;
+    %load/v 9, v0x236b7b0_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x236b850_0, 8, 1;
+    %load/v 8, v0x236b710_0, 1;
+    %load/v 9, v0x236b7b0_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x236b650_0, 8, 1;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x23580f0;
+T_1 ;
+    %wait E_0x2358a30;
+    %load/v 8, v0x236b300_0, 1;
+    %load/v 9, v0x236b3a0_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x236b440_0, 8, 1;
+    %load/v 8, v0x236b300_0, 1;
+    %load/v 9, v0x236b3a0_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x2334370_0, 8, 1;
+    %jmp T_1;
+    .thread T_1, $push;
+    .scope S_0x23591e0;
+T_2 ;
+    %vpi_call 2 22 "$dumpfile", "Subtractor.vcd";
+    %vpi_call 2 23 "$dumpvars", 1'sb0, S_0x23591e0;
+    %movi 8, 7, 4;
+    %set/v v0x236c0b0_0, 8, 4;
+    %movi 8, 2, 4;
+    %set/v v0x236c160_0, 8, 4;
+    %set/v v0x236c030_0, 1, 1;
+    %set/v v0x236c1e0_0, 0, 1;
+    %set/v v0x236c2b0_0, 0, 1;
+    %set/v v0x236c380_0, 0, 1;
+    %vpi_call 2 30 "$display", "Calculating %d-%d\012Result in 2's complement", v0x236c0b0_0, v0x236c160_0;
+    %vpi_call 2 31 "$display", "Bits from LSB to MSB in order are as follows";
+    %set/v v0x236bfb0_0, 0, 32;
+T_2.0 ;
+    %load/v 8, v0x236bfb0_0, 32;
+   %cmpi/s 8, 3, 32;
+    %or 5, 4, 1;
+    %jmp/0xz T_2.1, 5;
+    %delay 100, 0;
+    %ix/getv/s 1, v0x236bfb0_0;
+    %jmp/1 T_2.2, 4;
+    %load/x1p 8, v0x236c0b0_0, 1;
+    %jmp T_2.3;
+T_2.2 ;
+    %mov 8, 2, 1;
+T_2.3 ;
+; Save base=8 wid=1 in lookaside.
+    %set/v v0x236c1e0_0, 8, 1;
+    %ix/getv/s 1, v0x236bfb0_0;
+    %jmp/1 T_2.4, 4;
+    %load/x1p 8, v0x236c160_0, 1;
+    %jmp T_2.5;
+T_2.4 ;
+    %mov 8, 2, 1;
+T_2.5 ;
+; Save base=8 wid=1 in lookaside.
+    %inv 8, 1;
+    %set/v v0x236c2b0_0, 8, 1;
+    %load/v 8, v0x236c030_0, 1;
+    %set/v v0x236c380_0, 8, 1;
+    %load/v 8, v0x236bf00_0, 1;
+    %cassign/v v0x236c030_0, 8, 1;
+    %cassign/link v0x236c030_0, v0x236bf00_0;
+    %delay 100, 0;
+    %vpi_call 2 40 "$display", "%b", v0x236c4a0_0;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 9, v0x236bfb0_0, 32;
+    %set/v v0x236bfb0_0, 9, 32;
+    %jmp T_2.0;
+T_2.1 ;
+    %vpi_call 2 43 "$finish";
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "t_subtractor.v";
+    "fullAdder.v";

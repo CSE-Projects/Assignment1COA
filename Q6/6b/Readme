@@ -1,0 +1,9 @@
+The input binput is given to b by a, on receving this input b passes a 4 bit message (1 1 1 1) to a. This value is then printed along with binput.
+
+networkb.v is the main function file
+ 
+t_networkb.v is the testbench
+
+vvp is the output file 
+
+vcd is the gtkwave file

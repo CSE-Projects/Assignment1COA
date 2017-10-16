@@ -1,0 +1,9 @@
+The following module adds 3 bits (all possible combinations of it) using a half adder twice. Thus, implementing a full adder using half adder.
+
+fullAdder.v is the main function file
+
+t_fullAdder.v is the test bench for full adder
+
+vvp is the output file
+
+vcd is the gtkwave file

@@ -1,0 +1,129 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision - 10;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x1522310 .scope module, "t_Adder" "t_Adder" 2 3;
+ .timescale -9 -10;
+v0x1534db0_0 .net "carry", 0 0, L_0x1535420; 1 drivers
+v0x1534e60_0 .var/i "i", 31 0;
+v0x1534ee0_0 .var "imm", 0 0;
+v0x1534f60_0 .var "n1", 3 0;
+v0x1535010_0 .var "n2", 3 0;
+v0x1535090_0 .var "op1", 0 0;
+v0x1535160_0 .var "op2", 0 0;
+v0x1535230_0 .var "op3", 0 0;
+v0x1535350_0 .net "sum", 0 0, v0x15342f0_0; 1 drivers
+S_0x1522400 .scope module, "inst" "fullAdder" 2 19, 3 15, S_0x1522310;
+ .timescale -9 -10;
+L_0x1535420 .functor OR 1, v0x1534500_0, v0x14fd370_0, C4<0>, C4<0>;
+v0x15347e0_0 .alias "carry", 0 0, v0x1534db0_0;
+v0x1534860_0 .net "i1carry", 0 0, v0x1534500_0; 1 drivers
+v0x1534910_0 .net "i2carry", 0 0, v0x14fd370_0; 1 drivers
+v0x15349c0_0 .net "isum", 0 0, v0x1534700_0; 1 drivers
+v0x1534ac0_0 .net "op1", 0 0, v0x1535090_0; 1 drivers
+v0x1534b40_0 .net "op2", 0 0, v0x1535160_0; 1 drivers
+v0x1534c00_0 .net "op3", 0 0, v0x1535230_0; 1 drivers
+v0x1534cb0_0 .alias "sum", 0 0, v0x1535350_0;
+S_0x15343a0 .scope module, "inst1" "halfAdder" 3 22, 3 1, S_0x1522400;
+ .timescale -9 -10;
+v0x1534500_0 .var "carry", 0 0;
+v0x15345c0_0 .alias "op1", 0 0, v0x1534ac0_0;
+v0x1534660_0 .alias "op2", 0 0, v0x1534b40_0;
+v0x1534700_0 .var "sum", 0 0;
+E_0x1534490 .event edge, v0x1534660_0, v0x15345c0_0;
+S_0x1521200 .scope module, "inst2" "halfAdder" 3 24, 3 1, S_0x1522400;
+ .timescale -9 -10;
+v0x14fd370_0 .var "carry", 0 0;
+v0x15341b0_0 .alias "op1", 0 0, v0x15349c0_0;
+v0x1534250_0 .alias "op2", 0 0, v0x1534c00_0;
+v0x15342f0_0 .var "sum", 0 0;
+E_0x1521b60 .event edge, v0x1534250_0, v0x15341b0_0;
+    .scope S_0x15343a0;
+T_0 ;
+    %wait E_0x1534490;
+    %load/v 8, v0x15345c0_0, 1;
+    %load/v 9, v0x1534660_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x1534700_0, 8, 1;
+    %load/v 8, v0x15345c0_0, 1;
+    %load/v 9, v0x1534660_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x1534500_0, 8, 1;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x1521200;
+T_1 ;
+    %wait E_0x1521b60;
+    %load/v 8, v0x15341b0_0, 1;
+    %load/v 9, v0x1534250_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x15342f0_0, 8, 1;
+    %load/v 8, v0x15341b0_0, 1;
+    %load/v 9, v0x1534250_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x14fd370_0, 8, 1;
+    %jmp T_1;
+    .thread T_1, $push;
+    .scope S_0x1522310;
+T_2 ;
+    %vpi_call 2 22 "$dumpfile", "Adder.vcd";
+    %vpi_call 2 23 "$dumpvars", 1'sb0, S_0x1522310;
+    %movi 8, 3, 4;
+    %set/v v0x1534f60_0, 8, 4;
+    %movi 8, 9, 4;
+    %set/v v0x1535010_0, 8, 4;
+    %set/v v0x1534ee0_0, 0, 1;
+    %set/v v0x1535090_0, 0, 1;
+    %set/v v0x1535160_0, 0, 1;
+    %set/v v0x1535230_0, 0, 1;
+    %vpi_call 2 30 "$display", "Calculating %d+%d", v0x1534f60_0, v0x1535010_0;
+    %vpi_call 2 31 "$display", "Bits from LSB to MSB in order are as follows";
+    %set/v v0x1534e60_0, 0, 32;
+T_2.0 ;
+    %load/v 8, v0x1534e60_0, 32;
+   %cmpi/s 8, 3, 32;
+    %or 5, 4, 1;
+    %jmp/0xz T_2.1, 5;
+    %delay 100, 0;
+    %ix/getv/s 1, v0x1534e60_0;
+    %jmp/1 T_2.2, 4;
+    %load/x1p 8, v0x1534f60_0, 1;
+    %jmp T_2.3;
+T_2.2 ;
+    %mov 8, 2, 1;
+T_2.3 ;
+; Save base=8 wid=1 in lookaside.
+    %set/v v0x1535090_0, 8, 1;
+    %ix/getv/s 1, v0x1534e60_0;
+    %jmp/1 T_2.4, 4;
+    %load/x1p 8, v0x1535010_0, 1;
+    %jmp T_2.5;
+T_2.4 ;
+    %mov 8, 2, 1;
+T_2.5 ;
+; Save base=8 wid=1 in lookaside.
+    %set/v v0x1535160_0, 8, 1;
+    %load/v 8, v0x1534ee0_0, 1;
+    %set/v v0x1535230_0, 8, 1;
+    %load/v 8, v0x1534db0_0, 1;
+    %cassign/v v0x1534ee0_0, 8, 1;
+    %cassign/link v0x1534ee0_0, v0x1534db0_0;
+    %delay 100, 0;
+    %vpi_call 2 40 "$display", "%b", v0x1535350_0;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 9, v0x1534e60_0, 32;
+    %set/v v0x1534e60_0, 9, 32;
+    %jmp T_2.0;
+T_2.1 ;
+    %vpi_call 2 43 "$display", "%b", v0x1534db0_0;
+    %vpi_call 2 44 "$finish";
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "t_adder.v";
+    "fullAdder.v";

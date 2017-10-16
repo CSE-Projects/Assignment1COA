@@ -1,5 +1,5 @@
 $date
-	Mon Oct 16 10:40:54 2017
+	Mon Oct 16 21:22:15 2017
 $end
 $version
 	Icarus Verilog
@@ -7,7 +7,7 @@ $end
 $timescale
 	100ps
 $end
-$scope module t_halfAdder $end
+$scope module t_fullAdder $end
 $var wire 1 ! carry $end
 $var wire 1 " sum $end
 $var reg 1 # op1 $end
@@ -68,13 +68,6 @@ $end
 1$
 1*
 #300
-0$
-0*
-1#
-1)
-0%
-0+
-#400
 1!
 1.
 1'
@@ -82,7 +75,27 @@ $end
 0"
 1%
 1+
+#400
+0!
+0.
+0'
+1/
+1"
+0%
+0+
+0$
+0*
+1#
+1)
 #500
+1!
+1.
+1'
+0/
+0"
+1%
+1+
+#600
 0.
 0'
 1,
@@ -93,9 +106,9 @@ $end
 0+
 1$
 1*
-#600
+#700
 1/
 1"
 1%
 1+
-#700
+#800
