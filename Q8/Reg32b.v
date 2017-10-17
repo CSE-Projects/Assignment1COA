@@ -6,6 +6,7 @@
 
 module Reg32b (output [0:31] data_out, input [0:31] data_in, input clk, input res);
 
+	// 32 (1 bit Memory elements) with common Clock and Reset signals
 	Dff inst1 (data_out[0], data_in[0], clk, res);
 	Dff inst2 (data_out[1], data_in[1], clk, res);
 	Dff inst3 (data_out[2], data_in[2], clk, res);
@@ -43,6 +44,7 @@ module Reg32b (output [0:31] data_out, input [0:31] data_in, input clk, input re
 
 endmodule
 
+// 1 bit Memory Element
 module Dff (output reg q, input d, input clk, input res);
 	
 	always @ (posedge clk) begin

@@ -36,11 +36,14 @@ module t_Reg32b;
 			
 	end	
 
+	// tweaking reset bit signal
 	initial begin
 		#10 res = 1'b1;
 		#24 res = 1'b0;
+		#10 res = 1'b1;
 	end
 	
+	// clock signal
 	initial begin
 		repeat (30) begin
 			#5 clk = ~ clk;
