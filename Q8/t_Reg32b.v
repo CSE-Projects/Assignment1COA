@@ -49,7 +49,7 @@ module t_Reg32b;
 	
 	// print result
 	initial begin
-		//$monitor("%t: d: %b clk: %b reset: %b \t\t\t q: %b q': %b\n", $time, d, clk, res, q, qn);	
+		$monitor("%t: d: %b clk: %b reset: %b \t\t\t q: %b q': %b\n", $time, d, clk, res, q, qn);	
 	end
 	
 	
